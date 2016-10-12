@@ -1,0 +1,27 @@
+#include <Servo.h>
+#include "sensors.h";
+#include "motors.h";
+#include "nerfgunfire.h";
+#include "calibrate.h"
+
+#define r_sensor_pin A3
+
+void setup () 
+{
+  motorsetup();
+  disablemotors();
+
+  //pinMode(r_sensor_pin, INPUT);
+  Serial.begin(9600);
+}
+
+void loop() 
+{
+  float rs_dist = analogRead(r_sensor_pin);   // meters  
+}
+
+float getRDist()
+{
+  float reading = analogRead(r_sensor_pin);  
+  return min(5, max(10));
+}
