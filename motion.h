@@ -1,14 +1,8 @@
 // Clockwise dir-high
 #include "Arduino.h"
 
-const int stepdelay = 10;
-const int stepdelayadj = 10;
-
-int speeddelay = 1400;
-int speeddelaywest = speeddelay + 800;
-
-int speedmin = 3000;
-int speedmax = 1000;
+const int stepdelay = 1000;
+int speeddelay = 1000;
 
 // M1 Constants - Motor Z Ramps Pinouts
 const int M1DPin = 48;
@@ -55,8 +49,8 @@ void motorsetup(){
 }
 
 
-void north(){
-  
+void forward()
+{
   // Motor 2 - C-Clockwise Step     // Motor 1 - Clockwise Step
   // Motor 3 - C-Clockwise Step     // Motor 4 - Clockwise Step
 
@@ -89,11 +83,10 @@ void north(){
   digitalWrite(M4SPin, LOW);  
   
   delayMicroseconds(speeddelay);
-  
 }
 
-void south(){
-  
+void backward()
+{
   // Motor 2 - Clockwise Step       // Motor 1 - C-Clockwise Step
   // Motor 3 - Clockwise Step       // Motor 4 - C-Clockwise Step
 
@@ -126,11 +119,10 @@ void south(){
   digitalWrite(M4SPin, LOW);  
 
   delayMicroseconds(speeddelay);
-  
 }
 
-void west(){
-  
+void left()
+{
   // Motor 2 - Clockwise Step       // Motor 1 - Clockwise Step
   // Motor 3 - C-Clockwise Step     // Motor 4 - C-Clockwise Step
 
@@ -163,11 +155,10 @@ void west(){
   digitalWrite(M4SPin, LOW);  
   
   delayMicroseconds(speeddelay);
-  
 }
 
-void east(){
-  
+void right()
+{
   // Motor 2 - C-Clockwise Step       // Motor 1 - C-Clockwise Step
   // Motor 3 - Clockwise Step         // Motor 4 - Clockwise Step
 
@@ -200,11 +191,10 @@ void east(){
   digitalWrite(M4SPin, LOW);  
   
   delayMicroseconds(speeddelay);  
-  
 }
 
-void nw(){
-
+void forwardLeft()
+{
   // Motor 2 - Disabled                 // Motor 1 - Clockwise Step
   // Motor 3 - C-Clockwise Step         // Motor 4 - Disabled
 
@@ -216,25 +206,24 @@ void nw(){
   digitalWrite(M1SPin, LOW);
   digitalWrite(M3SPin, LOW);  
   
-  delayMicroseconds(stepdelayadj);
+  delayMicroseconds(stepdelay);
   
   // High
   digitalWrite(M1SPin, HIGH);
   digitalWrite(M3SPin, HIGH);  
 
   
-  delayMicroseconds(stepdelayadj);
+  delayMicroseconds(stepdelay);
   
   // Low 
   digitalWrite(M1SPin, LOW);
   digitalWrite(M3SPin, LOW); 
   
   delayMicroseconds(speeddelay);
-  
 }
 
-void ne(){
-
+void forwardRight()
+{
   // Motor 2 - C-Clockwise step     // Motor 1 - Disabled
   // Motor 3 - Disabled             // Motor 4 - Clockwise step
 
@@ -246,24 +235,23 @@ void ne(){
   digitalWrite(M2SPin, LOW); 
   digitalWrite(M4SPin, LOW);  
   
-  delayMicroseconds(stepdelayadj);
+  delayMicroseconds(stepdelay);
   
   // High
   digitalWrite(M2SPin, HIGH); 
   digitalWrite(M4SPin, HIGH);  
   
-  delayMicroseconds(stepdelayadj);
+  delayMicroseconds(stepdelay);
   
   // Low 
   digitalWrite(M2SPin, LOW); 
   digitalWrite(M4SPin, LOW); 
   
   delayMicroseconds(speeddelay);
-  
 }
 
-void sw(){
-  
+void backwardLeft()
+{
   // Motor 2 - Clockwise step       // Motor 1 - Disabled
   // Motor 3 - Disabled             // Motor 4 - C-Clockwise step
 
@@ -275,24 +263,23 @@ void sw(){
   digitalWrite(M2SPin, LOW);
   digitalWrite(M4SPin, LOW);  
   
-  delayMicroseconds(stepdelayadj);
+  delayMicroseconds(stepdelay);
   
   // High
   digitalWrite(M2SPin, HIGH);  
   digitalWrite(M4SPin, HIGH);  
   
-  delayMicroseconds(stepdelayadj);
+  delayMicroseconds(stepdelay);
   
   // Low 
   digitalWrite(M2SPin, LOW); 
   digitalWrite(M4SPin, LOW); 
   
   delayMicroseconds(speeddelay);
-
 }
 
-void se(){
-  
+void backwardRight()
+{
   // Motor 2 - Disabled             // Motor 1 - C-Clockwise
   // Motor 3 - Clockwise            // Motor 4 - Disabled
 
@@ -304,49 +291,34 @@ void se(){
   digitalWrite(M1SPin, LOW);
   digitalWrite(M3SPin, LOW);    
   
-  delayMicroseconds(stepdelayadj);
+  delayMicroseconds(stepdelay);
   
   // High
   digitalWrite(M1SPin, HIGH);
   digitalWrite(M3SPin, HIGH);   
   
-  delayMicroseconds(stepdelayadj);
+  delayMicroseconds(stepdelay);
   
   // Low 
   digitalWrite(M2SPin, LOW); 
   digitalWrite(M4SPin, LOW); 
   
   delayMicroseconds(speeddelay);
-
 }
 
-void disablemotors(){
-  
-  // Disable all the motors
+void disableMotors()
+{
   digitalWrite(M1EPin, 1);
   digitalWrite(M2EPin, 1);
   digitalWrite(M3EPin, 1);
   digitalWrite(M4EPin, 1);
-  
 }
 
-void halfdisablemotors(){
-  
-  // Disable all the motors
-  digitalWrite(M1EPin, 1);
-  digitalWrite(M2EPin, 1);
-  digitalWrite(M3EPin, 0);
-  digitalWrite(M4EPin, 0);
-  
-}
-
-void enablemotors(){
-  
-  // Disable all the motors
+void enableMotors()
+{
   digitalWrite(M1EPin, 0);
   digitalWrite(M2EPin, 0);
   digitalWrite(M3EPin, 0);
   digitalWrite(M4EPin, 0);
-  
 }
 

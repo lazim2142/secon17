@@ -8,7 +8,7 @@ class IRSensor
 public:
   IRSensor(int pin);
   void update();
-  int getDist();
+  double getDist();
   int getAnalogReading();
 private:
   int pin;

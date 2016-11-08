@@ -9,17 +9,27 @@ IRSensor ir_back(A9);
 void setup ()
 {
   motorsetup();
-  disablemotors();
+  enableMotors();
   Serial.begin(9600);
 }
 
 void loop()
 {
+  updateSensors();
+  
+  Serial.println(ir_front.getDist());
+//  forward();
+//  if(ir_front.getDist() > 7)
+//    forward();
+//  if (ir_front.getDist() < 5)
+//    backward();
+}
+
+void updateSensors()
+{
   ir_front.update();
   ir_back.update();
   ir_left.update();
   ir_right.update();
-  //Serial.println(ir_front.getDist());
-  Serial.println(ir_back.getDist());
-    
 }
+

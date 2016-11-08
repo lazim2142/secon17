@@ -13,7 +13,7 @@ int IRSensor::getAnalogReading()
   return r;
 }
 
-int IRSensor::getDist()
+double IRSensor::getDist()
 {
   return min(20, max(0, 0.000000000952 * r * r * r * r
                      - 0.000001737 * r * r * r
