@@ -1,28 +1,28 @@
 // Clockwise dir-high
 #include "Arduino.h"
 
-const int stepdelay = 1000;
+const int STEP_DELAY = 1000;
 int speeddelay = 1000;
 
 // M1 Constants - Motor Z Ramps Pinouts
-const int M1DPin = 48;
-const int M1EPin = 62;
-const int M1SPin = 46;
+const int M1DPin = 41;
+const int M1EPin = 37;
+const int M1SPin = 39;
 
 // M2 Constants - Motor X Ramps Pinouts
-const int M2DPin = 55;
-const int M2EPin = 38;
-const int M2SPin = 54;
+const int M2DPin = 40;
+const int M2EPin = 36;
+const int M2SPin = 38;
 
 // M3 Constants - Motor Y Ramps Pinouts
-const int M3DPin = 61;
-const int M3EPin = 56;
-const int M3SPin = 60;
+const int M3DPin = 35;
+const int M3EPin = 31;
+const int M3SPin = 33;
 
 // M4 Constants - Motor E Ramps Pinouts
-const int M4DPin = 28;
-const int M4EPin = 24;
-const int M4SPin = 26;
+const int M4DPin = 34;
+const int M4EPin = 30;
+const int M4SPin = 32;
 
 void motorsetup(){
 
@@ -66,7 +66,7 @@ void forward()
   digitalWrite(M3SPin, LOW);  
   digitalWrite(M4SPin, LOW);  
   
-  delayMicroseconds(stepdelay);
+  delayMicroseconds(STEP_DELAY);
   
   // High
   digitalWrite(M1SPin, HIGH);
@@ -74,7 +74,7 @@ void forward()
   digitalWrite(M3SPin, HIGH);  
   digitalWrite(M4SPin, HIGH);  
   
-  delayMicroseconds(stepdelay);
+  delayMicroseconds(STEP_DELAY);
  
   // Low 
   digitalWrite(M1SPin, LOW);
@@ -102,7 +102,7 @@ void backward()
   digitalWrite(M3SPin, LOW);  
   digitalWrite(M4SPin, LOW);  
   
-  delayMicroseconds(stepdelay);
+  delayMicroseconds(STEP_DELAY);
   
   // High
   digitalWrite(M1SPin, HIGH);
@@ -110,7 +110,7 @@ void backward()
   digitalWrite(M3SPin, HIGH);  
   digitalWrite(M4SPin, HIGH);  
   
-  delayMicroseconds(stepdelay);
+  delayMicroseconds(STEP_DELAY);
   
   // Low 
   digitalWrite(M1SPin, LOW);
@@ -138,7 +138,7 @@ void left()
   digitalWrite(M3SPin, LOW);  
   digitalWrite(M4SPin, LOW);  
   
-  delayMicroseconds(stepdelay);
+  delayMicroseconds(STEP_DELAY);
   
   // High
   digitalWrite(M1SPin, HIGH);
@@ -146,7 +146,7 @@ void left()
   digitalWrite(M3SPin, HIGH);  
   digitalWrite(M4SPin, HIGH);  
   
-  delayMicroseconds(stepdelay);
+  delayMicroseconds(STEP_DELAY);
   
   // Low 
   digitalWrite(M1SPin, LOW);
@@ -174,7 +174,7 @@ void right()
   digitalWrite(M3SPin, LOW);  
   digitalWrite(M4SPin, LOW);  
   
-  delayMicroseconds(stepdelay);
+  delayMicroseconds(STEP_DELAY);
   
   // High
   digitalWrite(M1SPin, HIGH);
@@ -182,7 +182,7 @@ void right()
   digitalWrite(M3SPin, HIGH);  
   digitalWrite(M4SPin, HIGH);  
   
-  delayMicroseconds(stepdelay);
+  delayMicroseconds(STEP_DELAY);
   
   // Low 
   digitalWrite(M1SPin, LOW);
@@ -206,14 +206,14 @@ void forwardLeft()
   digitalWrite(M1SPin, LOW);
   digitalWrite(M3SPin, LOW);  
   
-  delayMicroseconds(stepdelay);
+  delayMicroseconds(STEP_DELAY);
   
   // High
   digitalWrite(M1SPin, HIGH);
   digitalWrite(M3SPin, HIGH);  
 
   
-  delayMicroseconds(stepdelay);
+  delayMicroseconds(STEP_DELAY);
   
   // Low 
   digitalWrite(M1SPin, LOW);
@@ -235,13 +235,13 @@ void forwardRight()
   digitalWrite(M2SPin, LOW); 
   digitalWrite(M4SPin, LOW);  
   
-  delayMicroseconds(stepdelay);
+  delayMicroseconds(STEP_DELAY);
   
   // High
   digitalWrite(M2SPin, HIGH); 
   digitalWrite(M4SPin, HIGH);  
   
-  delayMicroseconds(stepdelay);
+  delayMicroseconds(STEP_DELAY);
   
   // Low 
   digitalWrite(M2SPin, LOW); 
@@ -263,13 +263,13 @@ void backwardLeft()
   digitalWrite(M2SPin, LOW);
   digitalWrite(M4SPin, LOW);  
   
-  delayMicroseconds(stepdelay);
+  delayMicroseconds(STEP_DELAY);
   
   // High
   digitalWrite(M2SPin, HIGH);  
   digitalWrite(M4SPin, HIGH);  
   
-  delayMicroseconds(stepdelay);
+  delayMicroseconds(STEP_DELAY);
   
   // Low 
   digitalWrite(M2SPin, LOW); 
@@ -291,13 +291,13 @@ void backwardRight()
   digitalWrite(M1SPin, LOW);
   digitalWrite(M3SPin, LOW);    
   
-  delayMicroseconds(stepdelay);
+  delayMicroseconds(STEP_DELAY);
   
   // High
   digitalWrite(M1SPin, HIGH);
   digitalWrite(M3SPin, HIGH);   
   
-  delayMicroseconds(stepdelay);
+  delayMicroseconds(STEP_DELAY);
   
   // Low 
   digitalWrite(M2SPin, LOW); 

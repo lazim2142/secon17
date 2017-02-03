@@ -16,9 +16,8 @@ void setup ()
 void loop()
 {
   updateSensors();
-  
   Serial.println(ir_front.getDist());
-//  forward();
+  forward();
 //  if(ir_front.getDist() > 7)
 //    forward();
 //  if (ir_front.getDist() < 5)
