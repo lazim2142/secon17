@@ -12,17 +12,20 @@ const int IR4 = A3;
 const int IR5 = A13;
 const int IR6 = A14;
 const int IR7 = A15;
-const int IR8 = A12; 
+const int IR8 = A12;
 
 class IRSensor
 {
 public:
   IRSensor(int pin);
   void update();
-  double getDist();
+  double getInches();
   int getAnalogReading();
   void serialPrint();
   void printCalibration();
+  static void updateAllSensors();
+  static void printSensors();
+  
 private:
   const int MEDIAN_WINDOW = 25;
   RunningMedian running_median; 
