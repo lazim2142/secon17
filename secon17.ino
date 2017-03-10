@@ -33,10 +33,10 @@ void loop()
     return;
   }
   
-  Motion::setMotorSpeed(1, 50000);
-  //Motion::setMotorSpeed(2, 1300);
-  //Motion::setMotorSpeed(3, 1000);
-  //Motion::setMotorSpeed(4, 1000);
+  Motion::setMotorSpeed(1, 3000);
+  Motion::setMotorSpeed(2, 3000);
+  Motion::setMotorSpeed(3, 3000);
+  Motion::setMotorSpeed(4, 3000);
   
   //Localization::updatePose();  
   //Motion::goToPosition(0, 0);
