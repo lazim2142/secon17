@@ -1,9 +1,18 @@
 // Clockwise dir-high
 #include "Arduino.h"
+#include "ir_sensor.h"
 
 // Current pose
 extern float x, y;
 extern int orientation;
+extern IRSensor ir_front_short;
+extern IRSensor ir_front_long;
+extern IRSensor ir_left_short;
+extern IRSensor ir_left_long;
+extern IRSensor ir_right_short;
+extern IRSensor ir_right_long;
+extern IRSensor ir_back_short;
+extern IRSensor ir_back_long;
 
 namespace Motion {
 
@@ -47,15 +56,19 @@ void setMotorSpeed(int motor, int s)
     case 1:
       dir_pin = M1DPin;
       speed_pin = M1SPin;
+      break;
     case 2:
       dir_pin = M2DPin;
       speed_pin = M2SPin;
+      break;
     case 3:
       dir_pin = M2DPin;
       speed_pin = M2SPin;
+      break;
     case 4:
       dir_pin = M2DPin;
       speed_pin = M2SPin;
+      break;
   }
 
   if (s != 0)
@@ -143,5 +156,41 @@ void enableMotors()
   digitalWrite(M4EPin, LOW);
 }
 
+
+
+void align(int direc)
+{
+  switch (direc)
+  {
+    case 1:
+      break;
+    case 2:
+    Serial.println(ir_right_short.getInches());
+    Serial.println(ir_right_long.getInches());
+      if((ir_right_short.getInches() - ir_right_long.getInches()) > 0.1){
+        setMotorSpeed(1,-1);
+        setMotorSpeed(2,-1);
+        setMotorSpeed(3,-1);
+        setMotorSpeed(4,-1);
+        Serial.println("counterclockwise");
+      }
+
+      else if((ir_right_short.getInches() - ir_right_long.getInches()) < -0.1){
+        setMotorSpeed(1,1);
+        setMotorSpeed(2,1);
+        setMotorSpeed(3,1);
+        setMotorSpeed(4,1);
+        Serial.println("clockwise");
+      }
+
+      else{
+        setMotorSpeed(1,0);
+        setMotorSpeed(2,0);
+        setMotorSpeed(3,0);
+        setMotorSpeed(4,0);
+      }
+      break;
+  }
+}
 }
 

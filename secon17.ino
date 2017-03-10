@@ -17,15 +17,17 @@ int orientation = 0;
 void setup ()
 {
   Motion::motorsetup();
-  Motion::enableMotors();
+  //Motion::enableMotors();
+  Motion::disableMotors();
   Serial.begin(9600);
 }
 
 void loop()
 {
   IRSensor::updateAllSensors();
-  Localization::updatePose();
-  Motion::goToPosition(0, 0);
+  //Localization::updatePose();
+  //Motion::goToPosition(0, 0);
+  Motion::align(2);
 }
 
 
