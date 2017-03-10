@@ -17,12 +17,14 @@ int orientation = 0;
 void setup ()
 {
   Motion::motorsetup();
-  Motion::enableMotors();
+  //Motion::enableMotors();
+  Motion::disableMotors();
   Serial.begin(9600);
 }
 
 void loop()
 {
+<<<<<<< HEAD
   //IRSensor::updateAllSensors();
   //Serial.println(ir_back_long.getInches());
   //IRSensor::printSensors();
@@ -39,5 +41,12 @@ void loop()
   Motion::setMotorSpeed(4, 3000);
   
   //Localization::updatePose();  
+=======
+
+  IRSensor::updateAllSensors();
+  //Localization::updatePose();
+>>>>>>> feef492e4fe55a229dac7fa88b72b3cb13ce2926
   //Motion::goToPosition(0, 0);
+  Motion::align(2);
+
 }

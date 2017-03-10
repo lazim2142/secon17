@@ -1,9 +1,18 @@
 // Clockwise dir-high
 #include "Arduino.h"
+#include "ir_sensor.h"
 
 // Current pose
 extern float x, y;
 extern int orientation;
+extern IRSensor ir_front_short;
+extern IRSensor ir_front_long;
+extern IRSensor ir_left_short;
+extern IRSensor ir_left_long;
+extern IRSensor ir_right_short;
+extern IRSensor ir_right_long;
+extern IRSensor ir_back_short;
+extern IRSensor ir_back_long;
 
 namespace Motion {
 
@@ -48,7 +57,6 @@ void setMotorSpeed(int motor, unsigned long s)
   switch (motor)
   {
     case 1:
-      dir_pin = M1DPin;
       step_pin = M1SPin;
       last_step_time = &M1_step_time;
       step_level = &M1_step_level;
@@ -83,12 +91,20 @@ void setMotorSpeed(int motor, unsigned long s)
 
     // Maintiain Step Pulse Timing
     unsigned long curr_time = micros();
+<<<<<<< HEAD
     //Serial.println(*step_level);
+=======
+  //  Serial.println(*step_level);
+>>>>>>> feef492e4fe55a229dac7fa88b72b3cb13ce2926
     if (curr_time - (*last_step_time) >= s)
     {
       if(*step_level)
       {
+<<<<<<< HEAD
         //Serial.println("Setting Low");
+=======
+       // Serial.println("Setting Low");
+>>>>>>> feef492e4fe55a229dac7fa88b72b3cb13ce2926
         digitalWrite(step_pin, LOW);    
         *step_level = false;
       }
@@ -182,5 +198,41 @@ void enableMotors()
   digitalWrite(M4EPin, LOW);
 }
 
+
+
+void align(int direc)
+{
+  switch (direc)
+  {
+    case 1:
+      break;
+    case 2:
+  //  Serial.println(ir_right_short.getInches());
+   // Serial.println(ir_right_long.getInches());
+      if((ir_right_short.getInches() - ir_right_long.getInches()) > 0.1){
+        setMotorSpeed(1,-1);
+        setMotorSpeed(2,-1);
+        setMotorSpeed(3,-1);
+        setMotorSpeed(4,-1);
+        Serial.println("counterclockwise");
+      }
+
+      else if((ir_right_short.getInches() - ir_right_long.getInches()) < -0.1){
+        setMotorSpeed(1,1);
+        setMotorSpeed(2,1);
+        setMotorSpeed(3,1);
+        setMotorSpeed(4,1);
+        Serial.println("clockwise");
+      }
+
+      else{
+        setMotorSpeed(1,0);
+        setMotorSpeed(2,0);
+        setMotorSpeed(3,0);
+        setMotorSpeed(4,0);
+      }
+      break;
+  }
+}
 }
 
