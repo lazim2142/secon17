@@ -28,7 +28,7 @@ public:
   
 private:
   const int MEDIAN_WINDOW = 25;
-  RunningMedian running_median; 
+  RunningMedian running_median;
   int pin;
 };
 

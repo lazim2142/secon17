@@ -17,16 +17,62 @@ int IRSensor::getAnalogReading()
 double IRSensor::getInches()
 {
   int r = running_median.getMedian();
-  return min(2, max(0, 0.000000000952 * r * r * r * r
-                         - 0.000001737 * r * r * r
-                         + 0.001169 * r * r
-                         - 0.356 * r
-                         + 47.227));
+  switch(pin)
+  {
+  	case IR1:
+	  	return min(10, max(0, 0.000000000952 * r * r * r * r
+	                         - 0.000001737 * r * r * r
+	                         + 0.001169 * r * r
+	                         - 0.356 * r
+	                         + 47.227));
+  	case IR2:
+  		return min(10, max(0, 0.000000000952 * r * r * r * r
+	                         - 0.000001737 * r * r * r
+	                         + 0.001169 * r * r
+	                         - 0.356 * r
+	                         + 47.227));
+  	case IR3:
+  		return min(40, max(0,- 0.0000000001 * r * r * r * r
+	                         + 0.00000004 * r * r * r
+	                         + 0.00005 * r * r
+	                         - 0.1496 * r
+	                         + 51.045));
+  	case IR4:
+  		return min(10, max(0, 0.000000000952 * r * r * r * r
+	                         - 0.000001737 * r * r * r
+	                         + 0.001169 * r * r
+	                         - 0.356 * r
+	                         + 47.227));
+  	case IR5:
+  		return min(40, max(0, 0.00000000003 * r * r * r * r
+    			                 - 0.0000004 * r * r * r
+    			                 + 0.0006 * r * r
+    			                 - 0.3059 * r
+    			                 + 68.184));
+  	case IR6:
+  		return min(10, max(0, 0.000000000952 * r * r * r * r
+	                         - 0.000001737 * r * r * r
+	                         + 0.001169 * r * r
+	                         - 0.356 * r
+	                         + 47.227));
+  	case IR7:
+  		return min(40, max(0, -0.0000000005 * r * r * r * r
+    			                 + 0.0000004 * r * r * r
+    			                 + 0.00008 * r * r
+    			                 - 0.1669 * r
+    			                 + 52.485));
+  	case IR8:
+  		return min(10, max(0, 0.000000000952 * r * r * r * r
+	                         - 0.000001737 * r * r * r
+	                         + 0.001169 * r * r
+	                         - 0.356 * r
+	                         + 47.227));
+  }
 }
 
 void IRSensor::serialPrint()
 {
-  Serial.print(running_median.getMedian());
+  Serial.print(getInches());
   Serial.print("\t");
 }
 
@@ -66,5 +112,6 @@ void IRSensor::printSensors()
   ir_back_long.serialPrint();
   ir_left_short.serialPrint();
   ir_left_long.serialPrint();
+  Serial.print("\n");
 }
 

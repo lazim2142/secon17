@@ -17,7 +17,7 @@ extern IRSensor ir_back_long;
 namespace Motion {
 
 // Step signal minimum high time
-const int STEP_MICROSECONDS = 1;
+const int STEP_MICROSECONDS = 10000;
 
 // M1 Constants - Motor Z Ramps Pinouts
 const int M1DPin = 41;
@@ -39,35 +39,45 @@ const int M4DPin = 34;
 const int M4EPin = 30;
 const int M4SPin = 32;
 
-// Angle offset of wheel axis from robot east
-const float M1_OFFSET = 45.0 * M_PI / 180.0;
-const float M2_OFFSET = 135.0 * M_PI / 180.0;
-const float M3_OFFSET = 225.0 * M_PI / 180.0;
-const float M4_OFFSET = 315.0 * M_PI / 180.0;
+unsigned long M1_step_time;
+unsigned long M2_step_time;
+unsigned long M3_step_time;
+unsigned long M4_step_time;
 
-// Proportional Control
-float PK = 1.0;
+bool M1_step_level;
+bool M2_step_level;
+bool M3_step_level;
+bool M4_step_level;
 
-void setMotorSpeed(int motor, int s)
+void setMotorSpeed(int motor, unsigned long s)
 {
-  int dir_pin, speed_pin;
+  int dir_pin, step_pin;
+  unsigned long* last_step_time;
+  bool* step_level;
   switch (motor)
   {
     case 1:
-      dir_pin = M1DPin;
-      speed_pin = M1SPin;
+      step_pin = M1SPin;
+      last_step_time = &M1_step_time;
+      step_level = &M1_step_level;
       break;
     case 2:
       dir_pin = M2DPin;
-      speed_pin = M2SPin;
+      step_pin = M2SPin;
+      last_step_time = &M2_step_time;
+      step_level = &M2_step_level;
       break;
     case 3:
-      dir_pin = M2DPin;
-      speed_pin = M2SPin;
+      dir_pin = M3DPin;
+      step_pin = M3SPin;
+      last_step_time = &M3_step_time;
+      step_level = &M3_step_level;
       break;
     case 4:
-      dir_pin = M2DPin;
-      speed_pin = M2SPin;
+      dir_pin = M4DPin;
+      step_pin = M4SPin;
+      last_step_time = &M4_step_time;
+      step_level = &M4_step_level;
       break;
   }
 
@@ -79,15 +89,39 @@ void setMotorSpeed(int motor, int s)
     else
       digitalWrite(dir_pin, LOW);
 
-    // Set Speed
-    digitalWrite(speed_pin, HIGH);
-    delayMicroseconds(STEP_MICROSECONDS);
-    digitalWrite(speed_pin, LOW);
-    delayMicroseconds(max(0, min(1000, s)));
+    // Maintiain Step Pulse Timing
+    unsigned long curr_time = micros();
+  //  Serial.println(*step_level);
+    if (curr_time - (*last_step_time) >= s)
+    {
+      if(*step_level)
+      {
+       // Serial.println("Setting Low");
+        digitalWrite(step_pin, LOW);    
+        *step_level = true;
+      }
+      else
+      {
+        //Serial.println("Setting High");
+        digitalWrite(step_pin, HIGH);
+        *step_level = false;
+      }
+      //Serial.println(curr_time - (*last_step_time));
+      *last_step_time = curr_time;
+    }
   }
   else
-    digitalWrite(speed_pin, LOW);
+    digitalWrite(step_pin, LOW);
 }
+
+// Proportional Control
+float PK = 1.0;
+
+// Angle offset of wheel axis from robot east
+const float M1_OFFSET = 45.0 * M_PI / 180.0;
+const float M2_OFFSET = 135.0 * M_PI / 180.0;
+const float M3_OFFSET = 225.0 * M_PI / 180.0;
+const float M4_OFFSET = 315.0 * M_PI / 180.0;
 
 void goToPosition(float x_target, float y_target)
 {
@@ -165,8 +199,8 @@ void align(int direc)
     case 1:
       break;
     case 2:
-    Serial.println(ir_right_short.getInches());
-    Serial.println(ir_right_long.getInches());
+  //  Serial.println(ir_right_short.getInches());
+   // Serial.println(ir_right_long.getInches());
       if((ir_right_short.getInches() - ir_right_long.getInches()) > 0.1){
         setMotorSpeed(1,-1);
         setMotorSpeed(2,-1);
