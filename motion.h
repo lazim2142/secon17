@@ -91,30 +91,18 @@ void setMotorSpeed(int motor, unsigned long s)
 
     // Maintiain Step Pulse Timing
     unsigned long curr_time = micros();
-<<<<<<< HEAD
-    //Serial.println(*step_level);
-=======
-  //  Serial.println(*step_level);
->>>>>>> feef492e4fe55a229dac7fa88b72b3cb13ce2926
     if (curr_time - (*last_step_time) >= s)
     {
       if(*step_level)
       {
-<<<<<<< HEAD
-        //Serial.println("Setting Low");
-=======
-       // Serial.println("Setting Low");
->>>>>>> feef492e4fe55a229dac7fa88b72b3cb13ce2926
         digitalWrite(step_pin, LOW);    
         *step_level = false;
       }
       else
       {
-        //Serial.println("Setting High");
         digitalWrite(step_pin, HIGH);
         *step_level = true;
       }
-      //Serial.println(curr_time - (*last_step_time));
       *last_step_time = curr_time;
     }
   }

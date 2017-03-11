@@ -24,28 +24,13 @@ void setup ()
 
 void loop()
 {
-<<<<<<< HEAD
-  //IRSensor::updateAllSensors();
-  //Serial.println(ir_back_long.getInches());
-  //IRSensor::printSensors();
-  
-  if(millis() > 3000)
-  {
-    Motion::disableMotors();
-    return;
-  }
-  
-  Motion::setMotorSpeed(1, 3000);
-  Motion::setMotorSpeed(2, 3000);
-  Motion::setMotorSpeed(3, 3000);
-  Motion::setMotorSpeed(4, 3000);
-  
-  //Localization::updatePose();  
-=======
+//  Motion::setMotorSpeed(1, 3000);
+//  Motion::setMotorSpeed(2, 3000);
+//  Motion::setMotorSpeed(3, 3000);
+//  Motion::setMotorSpeed(4, 3000);
 
   IRSensor::updateAllSensors();
   //Localization::updatePose();
->>>>>>> feef492e4fe55a229dac7fa88b72b3cb13ce2926
   //Motion::goToPosition(0, 0);
   Motion::align(2);
 
