@@ -17,56 +17,56 @@ int IRSensor::getAnalogReading()
 double IRSensor::getInches()
 {
   int r = running_median.getMedian();
-  switch(pin)
+  switch (pin)
   {
-  	case IR1:
-	  	return min(10, max(0, 0.000000000952 * r * r * r * r
-	                         - 0.000001737 * r * r * r
-	                         + 0.001169 * r * r
-	                         - 0.356 * r
-	                         + 47.227));
-  	case IR2:
-  		return min(10, max(0, 0.000000000952 * r * r * r * r
-	                         - 0.000001737 * r * r * r
-	                         + 0.001169 * r * r
-	                         - 0.356 * r
-	                         + 47.227));
-  	case IR3:
-  		return min(40, max(0,- 0.0000000001 * r * r * r * r
-	                         + 0.00000004 * r * r * r
-	                         + 0.00005 * r * r
-	                         - 0.1496 * r
-	                         + 51.045));
-  	case IR4:
-  		return min(10, max(0, 0.000000000952 * r * r * r * r
-	                         - 0.000001737 * r * r * r
-	                         + 0.001169 * r * r
-	                         - 0.356 * r
-	                         + 47.227));
-  	case IR5:
-  		return min(40, max(0, 0.00000000003 * r * r * r * r
-    			                 - 0.0000004 * r * r * r
-    			                 + 0.0006 * r * r
-    			                 - 0.3059 * r
-    			                 + 68.184));
-  	case IR6:
-  		return min(10, max(0, 0.000000000952 * r * r * r * r
-	                         - 0.000001737 * r * r * r
-	                         + 0.001169 * r * r
-	                         - 0.356 * r
-	                         + 47.227));
-  	case IR7:
-  		return min(40, max(0, -0.0000000005 * r * r * r * r
-    			                 + 0.0000004 * r * r * r
-    			                 + 0.00008 * r * r
-    			                 - 0.1669 * r
-    			                 + 52.485));
-  	case IR8:
-  		return min(10, max(0, 0.000000000952 * r * r * r * r
-	                         - 0.000001737 * r * r * r
-	                         + 0.001169 * r * r
-	                         - 0.356 * r
-	                         + 47.227));
+    case IR1:
+      return min(10, max(0, 0.000000000952 * r * r * r * r
+                         - 0.000001737 * r * r * r
+                         + 0.001169 * r * r
+                         - 0.356 * r
+                         + 47.227));
+    case IR2:
+      return min(10, max(0, 0.000000000952 * r * r * r * r
+                         - 0.000001737 * r * r * r
+                         + 0.001169 * r * r
+                         - 0.356 * r
+                         + 47.227));
+    case IR3:
+      return min(40, max(0, 0.000000001489 * r * r * r * r
+                         - 0.000002703 * r * r * r
+                         + 0.001808 * r * r
+                         - 0.567 * r
+                         + 84.406));
+    case IR4:
+      return min(10, max(0, 0.000000000952 * r * r * r * r
+                         - 0.000001737 * r * r * r
+                         + 0.001169 * r * r
+                         - 0.356 * r
+                         + 47.227));
+    case IR5:
+      return min(40, max(0, 0.0000000008933 * r * r * r * r
+                         - 0.000001826 * r * r * r
+                         + 0.001359 * r * r
+                         - 0.475 * r
+                         + 78.776));
+    case IR6:
+      return min(10, max(0, 0.000000000952 * r * r * r * r
+                         - 0.000001737 * r * r * r
+                         + 0.001169 * r * r
+                         - 0.356 * r
+                         + 47.227));
+    case IR7:
+      return min(40, max(0, -0.0000000004113 * r * r * r * r
+                         - 0.000000003918 * r * r * r
+                         + 0.0004522 * r * r
+                         - 0.286 * r
+                         + 64.35));
+    case IR8:
+      return min(10, max(0, 0.000000000952 * r * r * r * r
+                         - 0.000001737 * r * r * r
+                         + 0.001169 * r * r
+                         - 0.356 * r
+                         + 47.227));
   }
 }
 

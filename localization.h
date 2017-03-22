@@ -29,7 +29,7 @@ const float DIST_2_SHORT_WALL = ARENA_WIDTH / 2;
 const float ROBOT_RADIUS = 6;
 
 // Gets the distance from the north, south, and east wall of the stage
-// taking into account the current orientation of the robot to select the 
+// taking into account the current orientation of the robot to select the
 // appropriate sensors.
 void getWallDistances(float& north_dist, float& south_dist, float& east_dist)
 {
@@ -98,7 +98,7 @@ void updatePose()
     north_south_switch_count = min(SWITCH_COUNT_MAX, north_south_switch_count++);
   else
     north_south_switch_count = max(-SWITCH_COUNT_MAX, north_south_switch_count--);
-    
+
   if (north_south_switch_count > 0)
     y = south_dist - DIST_2_SHORT_WALL;
   else

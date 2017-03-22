@@ -1,37 +1,35 @@
 #include "motion.h"
 #include "ir_sensor.h"
-#include "localization.h"
+#include "stage1.h"
+#include "stage2.h"
+#include "stage3.h"
+#include "magnetometer.h"
+#include <Wire.h>
+#include <Servo.h>
 
 IRSensor ir_front_short(IR1);
 IRSensor ir_front_long(IR2);
-IRSensor ir_right_short(IR3);
-IRSensor ir_right_long(IR4);
+IRSensor ir_right_short(IR4);
+IRSensor ir_right_long(IR3);
 IRSensor ir_back_short(IR6);
 IRSensor ir_back_long(IR5);
-IRSensor ir_left_short(IR7);
-IRSensor ir_left_long(IR8);
+IRSensor ir_left_short(IR8);
+IRSensor ir_left_long(IR7);
 
 float x, y;
 int orientation = 0;
 
-void setup ()
+void setup()
 {
-  Motion::motorsetup();
+  Stage2::init();
+  //Motion::motorsetup();
   //Motion::enableMotors();
-  Motion::disableMotors();
+//  pinMode(13, OUTPUT);
   Serial.begin(9600);
 }
 
 void loop()
 {
-//  Motion::setMotorSpeed(1, 3000);
-//  Motion::setMotorSpeed(2, 3000);
-//  Motion::setMotorSpeed(3, 3000);
-//  Motion::setMotorSpeed(4, 3000);
-
-  IRSensor::updateAllSensors();
-  //Localization::updatePose();
-  //Motion::goToPosition(0, 0);
-  Motion::align(2);
-
+  Stage2::perform();
+//  digitalWrite(13, LOW);
 }

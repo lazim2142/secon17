@@ -1,3 +1,6 @@
+#ifndef MOTION_H
+#define MOTION_H
+
 // Clockwise dir-high
 #include "Arduino.h"
 #include "ir_sensor.h"
@@ -16,18 +19,15 @@ extern IRSensor ir_back_long;
 
 namespace Motion {
 
-// Step signal minimum high time
-const int STEP_MICROSECONDS = 10000;
+// M1 Constants - Motor X Ramps Pinouts
+const int M1DPin = 40;
+const int M1EPin = 36;
+const int M1SPin = 38;
 
-// M1 Constants - Motor Z Ramps Pinouts
-const int M1DPin = 41;
-const int M1EPin = 37;
-const int M1SPin = 39;
-
-// M2 Constants - Motor X Ramps Pinouts
-const int M2DPin = 40;
-const int M2EPin = 36;
-const int M2SPin = 38;
+// M2 Constants - Motor Z Ramps Pinouts
+const int M2DPin = 41;
+const int M2EPin = 37;
+const int M2SPin = 39;
 
 // M3 Constants - Motor Y Ramps Pinouts
 const int M3DPin = 35;
@@ -49,7 +49,7 @@ bool M2_step_level;
 bool M3_step_level;
 bool M4_step_level;
 
-void setMotorSpeed(int motor, unsigned long s)
+void setMotorSpeed(int motor, int spd)
 {
   int dir_pin, step_pin;
   unsigned long* last_step_time;
@@ -57,6 +57,7 @@ void setMotorSpeed(int motor, unsigned long s)
   switch (motor)
   {
     case 1:
+      dir_pin = M1DPin;
       step_pin = M1SPin;
       last_step_time = &M1_step_time;
       step_level = &M1_step_level;
@@ -81,21 +82,24 @@ void setMotorSpeed(int motor, unsigned long s)
       break;
   }
 
-  if (s != 0)
+  if (spd != 0)
   {
     // Set Direction
-    if (s < 0)
+    if (spd < 0)
       digitalWrite(dir_pin, HIGH);
     else
       digitalWrite(dir_pin, LOW);
+
+    const unsigned long MAX_DELAY = 20000, MIN_DELAY = 2000;
+    unsigned long s =  map(min(100, max(0, abs(spd))), 0, 100, MAX_DELAY, MIN_DELAY);
 
     // Maintiain Step Pulse Timing
     unsigned long curr_time = micros();
     if (curr_time - (*last_step_time) >= s)
     {
-      if(*step_level)
+      if (*step_level)
       {
-        digitalWrite(step_pin, LOW);    
+        digitalWrite(step_pin, LOW);
         *step_level = false;
       }
       else
@@ -110,41 +114,60 @@ void setMotorSpeed(int motor, unsigned long s)
     digitalWrite(step_pin, LOW);
 }
 
-// Proportional Control
-float PK = 1.0;
-
-// Angle offset of wheel axis from robot east
-const float M1_OFFSET = 45.0 * M_PI / 180.0;
-const float M2_OFFSET = 135.0 * M_PI / 180.0;
-const float M3_OFFSET = 225.0 * M_PI / 180.0;
-const float M4_OFFSET = 315.0 * M_PI / 180.0;
-
-void goToPosition(float x_target, float y_target)
+void goLeft(int spd)
 {
-  // Errors
-  float x_error = x_target - x;
-  float y_error = y_target - y;
+  setMotorSpeed(1, spd);
+  setMotorSpeed(2, -spd);
+  setMotorSpeed(3, -spd);
+  setMotorSpeed(4, spd);
+}
 
-  // Proportional Control
-  float x_vel = x_error * PK;
-  float y_vel = y_error * PK;
+void goRight(int spd)
+{
+  setMotorSpeed(1, -spd);
+  setMotorSpeed(2, spd);
+  setMotorSpeed(3, spd);
+  setMotorSpeed(4, -spd);
+}
 
-  // Robot Frame Velocities
-  float ang = orientation * M_PI / 180.0;
-  float y_vel_robot = cos(ang) * x_vel + sin(ang) * y_vel;
-  float x_vel_robot = sin(ang) * x_vel - cos(ang) * y_vel;
+void goBack(int spd)
+{
+  setMotorSpeed(1, -spd);
+  setMotorSpeed(2, -spd);
+  setMotorSpeed(3, spd);
+  setMotorSpeed(4, spd);
+}
 
-  // Wheel Velocities
-  float m1 =  (cos(M1_OFFSET) * y_vel_robot - sin(M1_OFFSET) * x_vel_robot);
-  float m2 = -(cos(M2_OFFSET) * y_vel_robot - sin(M2_OFFSET) * x_vel_robot);
-  float m3 = -(cos(M3_OFFSET) * y_vel_robot - sin(M3_OFFSET) * x_vel_robot);
-  float m4 =  (cos(M4_OFFSET) * y_vel_robot - sin(M4_OFFSET) * x_vel_robot);
+void goFront(int spd)
+{
+  setMotorSpeed(1, spd);
+  setMotorSpeed(2, spd);
+  setMotorSpeed(3, -spd);
+  setMotorSpeed(4, -spd);
+}
 
-  // Actuate
-  setMotorSpeed(1, m1);
-  setMotorSpeed(2, m2);
-  setMotorSpeed(3, m3);
-  setMotorSpeed(4, m4);
+void rotateRight(int spd)
+{
+  setMotorSpeed(1, spd);
+  setMotorSpeed(2, spd);
+  setMotorSpeed(3, spd);
+  setMotorSpeed(4, spd);
+}
+
+void rotateLeft(int spd)
+{
+  setMotorSpeed(1, -spd);
+  setMotorSpeed(2, -spd);
+  setMotorSpeed(3, -spd);
+  setMotorSpeed(4, -spd);
+}
+
+void stopMoving()
+{
+  setMotorSpeed(1, 0);
+  setMotorSpeed(2, 0);
+  setMotorSpeed(3, 0);
+  setMotorSpeed(4, 0);
 }
 
 void motorsetup() {
@@ -186,41 +209,47 @@ void enableMotors()
   digitalWrite(M4EPin, LOW);
 }
 
-
-
-void align(int direc)
+enum dir {left, right, back};
+bool align(dir drctn)
 {
-  switch (direc)
+  return true;
+  float error;
+  switch (drctn)
   {
-    case 1:
+    case left:
+      {
+        ir_left_short.update();
+        ir_left_long.update();
+        float error = ir_left_short.getInches() - ir_left_long.getInches();
+      }
       break;
-    case 2:
-  //  Serial.println(ir_right_short.getInches());
-   // Serial.println(ir_right_long.getInches());
-      if((ir_right_short.getInches() - ir_right_long.getInches()) > 0.1){
-        setMotorSpeed(1,-1);
-        setMotorSpeed(2,-1);
-        setMotorSpeed(3,-1);
-        setMotorSpeed(4,-1);
-        Serial.println("counterclockwise");
+    case right:
+      {
+        ir_right_short.update();
+        ir_right_long.update();
+        float error = ir_right_short.getInches() - ir_right_long.getInches();
       }
-
-      else if((ir_right_short.getInches() - ir_right_long.getInches()) < -0.1){
-        setMotorSpeed(1,1);
-        setMotorSpeed(2,1);
-        setMotorSpeed(3,1);
-        setMotorSpeed(4,1);
-        Serial.println("clockwise");
-      }
-
-      else{
-        setMotorSpeed(1,0);
-        setMotorSpeed(2,0);
-        setMotorSpeed(3,0);
-        setMotorSpeed(4,0);
+      break;
+    case back:
+      {
+        ir_back_short.update();
+        ir_back_long.update();
+        float error = ir_back_short.getInches() - ir_back_long.getInches();
       }
       break;
   }
-}
-}
 
+  if (error > 0.1)
+    rotateLeft(10);
+  else if (error < -0.1)
+    rotateRight(10);
+  else
+  {
+    stopMoving();
+    return true;
+  }
+  
+  return false;
+}
+}
+#endif
