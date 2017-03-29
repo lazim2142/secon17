@@ -3,6 +3,7 @@
 #include "stage1.h"
 #include "stage2.h"
 #include "stage3.h"
+#include "stage4.h"
 #include "magnetometer.h"
 #include <Wire.h>
 #include <Servo.h>
@@ -21,15 +22,21 @@ int orientation = 0;
 
 void setup()
 {
+  Stage1::init();
   Stage2::init();
+  Stage3::init();
+  Stage4::init();
   //Motion::motorsetup();
   //Motion::enableMotors();
-//  pinMode(13, OUTPUT);
+  //pinMode(13, OUTPUT);
   Serial.begin(9600);
 }
 
 void loop()
 {
-  Stage2::perform();
-//  digitalWrite(13, LOW);
+  if(Stage1::perform())
+    if(Stage2::perform())
+      if(Stage3::perform())
+        if(Stage4::perform());
+        
 }
