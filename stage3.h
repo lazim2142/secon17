@@ -1,5 +1,6 @@
 #include "ir_sensor.h"
 #include "motion.h"
+#include "globals.h"
 #include <Servo.h>
 
 // External references lead to secon17.ino
@@ -10,31 +11,18 @@ extern IRSensor ir_front_short, ir_front_long,
 
 extern int Stage1::code_array[5];
 
+int transition_counter = 0;
+unsigned long rot_start_time = 0;
+
 namespace Stage3
 {
 // OUTPUT CODE FROM STAGE 1
-
-const float ARENA_LENGTH = 57;
-const float ARENA_WIDTH = 45;
-const float DIST_2_LONG_WALL = ARENA_LENGTH / 2;
-const float DIST_2_SHORT_WALL = ARENA_WIDTH / 2;
-const float ROBOT_RADIUS = 6.0;
-
-const int SERVO_PIN = 10;
 Servo servo;
 
-int signof(float f) {
-  return (f > 0) - (f < 0);
-}
-
-unsigned long rot_start_time = 0;
-const int TURN_SPEED = 15;
-const int TURN_MILLI_SECONDS = 5050;
-const int DIR = 1;
 int speed2ms(int spd) {
-  const int zero_ms = 1530;
-  const int max_ms = 1700;
-  return map(spd, 0, 100, zero_ms, max_ms);
+  const int ZERO_MS = 1530;
+  const int MAX_MS = 1700;
+  return map(spd, 0, 100, ZERO_MS, MAX_MS);
 }
 
 void init() {
@@ -44,7 +32,6 @@ void init() {
 }
 
 enum {move_left, align_pos, pad1, pad2, pad3, pad4, pad5, done} state = move_left;
-int transition_counter = 0;
 bool perform() {
   switch (state) {
     case move_left:

@@ -1,6 +1,7 @@
 #include "ir_sensor.h"
 #include "motion.h"
 #include "magnetometer.h"
+#include "globals.h"
 #include <Servo.h>
 
 // External references lead to secon17.ino
@@ -11,32 +12,8 @@ extern IRSensor ir_front_short, ir_front_long,
 
 namespace Stage2
 {
-/*
-  HIT THE LIGHTSABER
-  
-  This layer is the largest area, and	comprises over half
-  of the playing surface (45” wide by 57” long), and contains
-  the robot starting square and the locations of stages 1, 2 and 3.
-  The starting square is 15”x15” and is located in the center of
-  this space (15” from the inside of the long walls of the arena,
-  and	21” from the inside of the short wall).
-*/
-
-const float ARENA_LENGTH = 57;
-const float ARENA_WIDTH = 45;
-const float ROBOT_RADIUS = 6.0;
-
-const int SOLENOID_PIN = 13;
-const int SERVO_PIN = 9;
-
-const int INIT_MICRO_SECONDS = 1700;
-const int ACTION_MICRO_SECONDS = 1500;
-
+//HIT THE LIGHT-SABER
 Servo servo;
-
-int signof(float f) {
-  return (f > 0)-(f < 0); 
-}
 
 void init() {
   pinMode(SOLENOID_PIN, OUTPUT);

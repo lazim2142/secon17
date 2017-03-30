@@ -1,5 +1,14 @@
 #include "ir_sensor.h"
 
+IRSensor ir_front_short(IR1);
+IRSensor ir_front_long(IR2);
+IRSensor ir_right_short(IR4);
+IRSensor ir_right_long(IR3);
+IRSensor ir_back_short(IR6);
+IRSensor ir_back_long(IR5);
+IRSensor ir_left_short(IR8);
+IRSensor ir_left_long(IR7);
+
 IRSensor::IRSensor(int pin) : pin(pin), running_median(RunningMedian(MEDIAN_WINDOW))
 {
 }

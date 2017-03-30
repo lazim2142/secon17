@@ -15,11 +15,11 @@ void init()
 
 bool fieldDetected()
 {
-  float x=0, y=0, z=0;
+  float x = 0, y = 0, z = 0;
   if (mag.dataReady())
     mag.readMicroTeslas(&x, &y, &z);
   return sqrt(x * x + y * y + z * z) > 300;
 }
-}
 
+}
 #endif

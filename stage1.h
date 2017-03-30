@@ -1,5 +1,6 @@
 #include "ir_sensor.h"
 #include "motion.h"
+#include "globals.h"
 
 // External references lead to secon17.ino
 extern IRSensor ir_front_short, ir_front_long,
@@ -10,21 +11,10 @@ extern IRSensor ir_front_short, ir_front_long,
 namespace Stage1
 {
 // GET CODE FOR STAGE 3
-const float ARENA_LENGTH = 57;
-const float ARENA_WIDTH = 45;
-const float DIST_2_LONG_WALL = ARENA_LENGTH / 2;
-const float DIST_2_SHORT_WALL = ARENA_WIDTH / 2;
-const float ROBOT_RADIUS = 6.0;
-
 int code_array[5];
-
-int signof(float f) {
-  return (f > 0) - (f < 0);
-}
 
 enum {move_right, align_pos, read_code, done} state = move_right;
 int transition_counter = 0;
-
 
 void init(){
   return;
