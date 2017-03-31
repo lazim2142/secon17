@@ -24,11 +24,9 @@ bool perform() {
       {
         // Update relevant sensors
         ir_left_long.update();
-        ir_right_short.update();
 
-        // Move Right
-        float dist_2_right_wall = ARENA_WIDTH - ir_left_long.getInches() - 2 * ROBOT_RADIUS;
-        float error = dist_2_right_wall - (DIST_2_LONG_WALL - ROBOT_RADIUS);
+        // Move Center
+        float error = ARENA_WIDTH/2 - ir_left_long.getInches();
         if (fabs(error) > 0.1) {
           Motion::goRight(max(1, fabs(map(error, 0, 7, 0, 100))) * signof(error));
           transition_counter = 0;
@@ -50,7 +48,7 @@ bool perform() {
         ir_back_long.update();
 
         // Move Back/Forward
-        float error = 20.0 - ir_back_long.getInches();
+        float error = ir_back_long.getInches() - (ARENA_WIDTH/2 - ROBOT_RADIUS);
         if (fabs(error) > 0.1) {
           Motion::goBack(max(1, fabs(map(error, 0, 7, 0, 100))) *  signof(error));
           transition_counter = 0;
